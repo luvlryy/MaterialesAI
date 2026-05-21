@@ -13,7 +13,7 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics.pairwise import euclidean_distances
 
 # ============================================
-# CONFIGURACIÓN
+# CONFIGURACIÓN GENERAL
 # ============================================
 
 st.set_page_config(
@@ -40,7 +40,7 @@ html, body, [class*="css"] {
     background: linear-gradient(
         135deg,
         #ffe4ec 0%,
-        #fff0f5 40%,
+        #fff0f5 50%,
         #e8fff1 100%
     );
 }
@@ -51,13 +51,14 @@ section[data-testid="stSidebar"] {
     border-right: 3px solid #ffc2d1;
 }
 
-/* Títulos */
+/* Título */
 h1 {
     text-align: center;
     color: #ff5fa2 !important;
     font-size: 60px !important;
 }
 
+/* Subtítulos */
 h2, h3 {
     color: #ff85b3 !important;
 }
@@ -87,15 +88,7 @@ h2, h3 {
     font-weight: bold;
 }
 
-.stButton>button:hover {
-    background: linear-gradient(
-        90deg,
-        #ff5fa2,
-        #ff8fab
-    );
-}
-
-/* Cute box */
+/* Caja cute */
 .cute-box {
     background: rgba(255,255,255,0.7);
     border: 2px dashed #ffb3c6;
@@ -124,8 +117,8 @@ st.markdown("""
 
 ### 🐰 Bienvenida al laboratorio más cute de materiales 🎀
 
-Selecciona las propiedades mecánicas que deseas y el sistema encontrará
-los materiales más compatibles de la base de datos ✨
+Selecciona las propiedades mecánicas deseadas y el sistema
+encontrará los materiales más compatibles ✨
 
 💖 Matcha vibes + ingeniería de materiales 💖
 
@@ -133,34 +126,77 @@ los materiales más compatibles de la base de datos ✨
 """, unsafe_allow_html=True)
 
 # ============================================
-# CARGAR BASE DE DATOS
+# CARGAR EXCEL
 # ============================================
 
-# ⚠️ CAMBIA ESTE NOMBRE
-# por el nombre de tu archivo
+try:
 
-df = pd.read_excel("materiales_sin_aceros.xlsx")
+    df = pd.read_excel("materiales_sin_aceros.xlsx")
+
+except Exception as e:
+
+    st.error(f"❌ Error al cargar el Excel: {e}")
+    st.stop()
 
 # ============================================
-# LIMPIEZA
+# LIMPIAR COLUMNAS
+# ============================================
+
+df.columns = (
+    df.columns
+    .astype(str)
+    .str.strip()
+    .str.replace("\n", " ")
+    .str.replace("  ", " ")
+)
+
+# ============================================
+# MOSTRAR COLUMNAS
+# ============================================
+
+st.write("🌸 Columnas detectadas:")
+st.write(df.columns.tolist())
+
+# ============================================
+# COLUMNAS NUMÉRICAS
 # ============================================
 
 columnas_numericas = [
-    "Resistencia a la tracción máxima",
-    "Limite elástico",
-    "Elongación",
-    "Dureza de Brinell",
-    "Módulo de young",
-    "Módulo de corte"
+    "Su",
+    "Sy",
+    "A5",
+    "Bhn",
+    "E",
+    "G"
 ]
 
+# ============================================
+# VALIDAR COLUMNAS
+# ============================================
+
 for col in columnas_numericas:
+
+    if col not in df.columns:
+
+        st.error(f"❌ No se encontró la columna: {col}")
+        st.stop()
+
+# ============================================
+# CONVERTIR A NUMÉRICO
+# ============================================
+
+for col in columnas_numericas:
+
     df[col] = pd.to_numeric(
         df[col],
         errors="coerce"
     )
 
-df = df.dropna()
+# ============================================
+# ELIMINAR NaN
+# ============================================
+
+df = df.dropna(subset=columnas_numericas)
 
 # ============================================
 # SIDEBAR
@@ -168,56 +204,81 @@ df = df.dropna()
 
 st.sidebar.title("🎀 Propiedades deseadas")
 
+# ============================================
+# SLIDERS
+# ============================================
+
 uts = st.sidebar.slider(
-    "💪 Resistencia máxima",
-    int(df["Resistencia a la tracción máxima"].min()),
-    int(df["Resistencia a la tracción máxima"].max()),
-    int(df["Resistencia a la tracción máxima"].mean())
+    "💪 Resistencia máxima (Su)",
+    int(df["Su"].min()),
+    int(df["Su"].max()),
+    int(df["Su"].mean())
 )
 
 ys = st.sidebar.slider(
-    "⚙️ Límite elástico",
-    int(df["Limite elástico"].min()),
-    int(df["Limite elástico"].max()),
-    int(df["Limite elástico"].mean())
+    "⚙️ Límite elástico (Sy)",
+    int(df["Sy"].min()),
+    int(df["Sy"].max()),
+    int(df["Sy"].mean())
 )
 
 elong = st.sidebar.slider(
-    "🌸 Elongación",
-    int(df["Elongación"].min()),
-    int(df["Elongación"].max()),
-    int(df["Elongación"].mean())
+    "🌸 Elongación (A5)",
+    int(df["A5"].min()),
+    int(df["A5"].max()),
+    int(df["A5"].mean())
 )
 
 hb = st.sidebar.slider(
-    "🧁 Dureza Brinell",
-    int(df["Dureza de Brinell"].min()),
-    int(df["Dureza de Brinell"].max()),
-    int(df["Dureza de Brinell"].mean())
+    "🧁 Dureza Brinell (Bhn)",
+    int(df["Bhn"].min()),
+    int(df["Bhn"].max()),
+    int(df["Bhn"].mean())
 )
 
 young = st.sidebar.slider(
-    "📏 Módulo de Young",
-    int(df["Módulo de young"].min()),
-    int(df["Módulo de young"].max()),
-    int(df["Módulo de young"].mean())
+    "📏 Módulo de Young (E)",
+    int(df["E"].min()),
+    int(df["E"].max()),
+    int(df["E"].mean())
 )
 
 corte = st.sidebar.slider(
-    "🐹 Módulo de corte",
-    int(df["Módulo de corte"].min()),
-    int(df["Módulo de corte"].max()),
-    int(df["Módulo de corte"].mean())
+    "🐹 Módulo de corte (G)",
+    int(df["G"].min()),
+    int(df["G"].max()),
+    int(df["G"].mean())
 )
+
+# ============================================
+# TRATAMIENTO
+# ============================================
+
+if "Heat treatment" in df.columns:
+
+    tratamientos = sorted(
+        df["Heat treatment"]
+        .dropna()
+        .astype(str)
+        .unique()
+    )
+
+else:
+
+    tratamientos = ["Todos"]
 
 tratamiento = st.sidebar.selectbox(
     "🔥 Tratamiento térmico",
-    ["Todos"] + sorted(
-        df["Tratamiento térmico"].unique()
-    )
+    ["Todos"] + tratamientos
 )
 
-buscar = st.sidebar.button("✨ Buscar material ✨")
+# ============================================
+# BOTÓN
+# ============================================
+
+buscar = st.sidebar.button(
+    "✨ Buscar material ✨"
+)
 
 # ============================================
 # RECOMENDADOR
@@ -227,23 +288,37 @@ if buscar:
 
     datos = df.copy()
 
-    if tratamiento != "Todos":
+    if (
+        tratamiento != "Todos"
+        and "Heat treatment" in datos.columns
+    ):
+
         datos = datos[
-            datos["Tratamiento térmico"] == tratamiento
+            datos["Heat treatment"] == tratamiento
         ]
 
+    # ============================================
+    # FEATURES
+    # ============================================
+
     features = [
-        "Resistencia a la tracción máxima",
-        "Limite elástico",
-        "Elongación",
-        "Dureza de Brinell",
-        "Módulo de young",
-        "Módulo de corte"
+        "Su",
+        "Sy",
+        "A5",
+        "Bhn",
+        "E",
+        "G"
     ]
+
+    # ============================================
+    # NORMALIZAR
+    # ============================================
 
     scaler = MinMaxScaler()
 
-    X = scaler.fit_transform(datos[features])
+    X = scaler.fit_transform(
+        datos[features]
+    )
 
     usuario = scaler.transform([[
         uts,
@@ -254,10 +329,18 @@ if buscar:
         corte
     ]])
 
+    # ============================================
+    # DISTANCIAS
+    # ============================================
+
     distancias = euclidean_distances(
         usuario,
         X
     )
+
+    # ============================================
+    # TOP 5
+    # ============================================
 
     indices = np.argsort(
         distancias[0]
@@ -276,40 +359,50 @@ if buscar:
 
     st.header("🎀 Materiales recomendados")
 
+    columnas_mostrar = ["Material", "Similitud %"]
+
+    if "Heat treatment" in mejores.columns:
+
+        columnas_mostrar.insert(
+            1,
+            "Heat treatment"
+        )
+
     st.dataframe(
-        mejores[[
-            "Material",
-            "Tratamiento térmico",
-            "Similitud %"
-        ]],
+        mejores[columnas_mostrar],
         use_container_width=True
     )
 
-    mejor = mejores.iloc[0]
+    # ============================================
+    # MEJOR MATERIAL
+    # ============================================
 
-    # ============================================
-    # MÉTRICAS
-    # ============================================
+    mejor = mejores.iloc[0]
 
     col1, col2, col3 = st.columns(3)
 
     with col1:
+
         st.metric(
             "🌸 Material",
-            mejor["Material"]
+            str(mejor["Material"])
         )
 
     with col2:
+
         st.metric(
             "✨ Similitud",
             f"{mejor['Similitud %']}%"
         )
 
     with col3:
-        st.metric(
-            "🔥 Tratamiento",
-            mejor["Tratamiento térmico"]
-        )
+
+        if "Heat treatment" in mejor.index:
+
+            st.metric(
+                "🔥 Tratamiento",
+                str(mejor["Heat treatment"])
+            )
 
     # ============================================
     # APLICACIONES
@@ -317,9 +410,10 @@ if buscar:
 
     st.header("🧠 Aplicaciones sugeridas")
 
-    def aplicaciones(uts, hb, elong):
+    def aplicaciones(su, hb, a5):
 
-        if uts > 900:
+        if su > 900:
+
             return """
             💖 Excelente para:
             - Engranes
@@ -327,7 +421,8 @@ if buscar:
             - Componentes de alto esfuerzo
             """
 
-        elif elong > 25:
+        elif a5 > 25:
+
             return """
             🌸 Ideal para:
             - Estructuras soldables
@@ -336,26 +431,27 @@ if buscar:
             """
 
         elif hb > 250:
+
             return """
             🐰 Recomendado para:
             - Herramientas
-            - Partes resistentes al desgaste
-            - Aplicaciones industriales
+            - Piezas resistentes al desgaste
             """
 
         else:
+
             return """
             🎀 Uso general:
             - Componentes mecánicos
-            - Soportes estructurales
-            - Aplicaciones industriales básicas
+            - Soportes
+            - Aplicaciones industriales
             """
 
     st.info(
         aplicaciones(
-            mejor["Resistencia a la tracción máxima"],
-            mejor["Dureza de Brinell"],
-            mejor["Elongación"]
+            mejor["Su"],
+            mejor["Bhn"],
+            mejor["A5"]
         )
     )
 
@@ -367,11 +463,13 @@ if buscar:
 
     fig = px.scatter(
         mejores,
-        x="Dureza de Brinell",
-        y="Resistencia a la tracción máxima",
+        x="Bhn",
+        y="Su",
         color="Material",
         size="Similitud %",
-        hover_data=["Tratamiento térmico"],
+        hover_data=["Heat treatment"]
+        if "Heat treatment" in mejores.columns
+        else None,
         template="plotly_white"
     )
 
@@ -403,12 +501,12 @@ if buscar:
             corte
         ],
         theta=[
-            "UTS",
-            "YS",
-            "Elong",
-            "HB",
-            "Young",
-            "Corte"
+            "Su",
+            "Sy",
+            "A5",
+            "Bhn",
+            "E",
+            "G"
         ],
         fill='toself',
         name='Deseado'
@@ -416,20 +514,20 @@ if buscar:
 
     fig2.add_trace(go.Scatterpolar(
         r=[
-            mejor["Resistencia a la tracción máxima"],
-            mejor["Limite elástico"],
-            mejor["Elongación"],
-            mejor["Dureza de Brinell"],
-            mejor["Módulo de young"],
-            mejor["Módulo de corte"]
+            mejor["Su"],
+            mejor["Sy"],
+            mejor["A5"],
+            mejor["Bhn"],
+            mejor["E"],
+            mejor["G"]
         ],
         theta=[
-            "UTS",
-            "YS",
-            "Elong",
-            "HB",
-            "Young",
-            "Corte"
+            "Su",
+            "Sy",
+            "A5",
+            "Bhn",
+            "E",
+            "G"
         ],
         fill='toself',
         name='Material'
@@ -447,13 +545,13 @@ if buscar:
         use_container_width=True
     )
 
-    # ============================================
-    # DATASET
-    # ============================================
+# ============================================
+# DATASET
+# ============================================
 
-    st.header("📋 Base de datos")
+st.header("📋 Base de datos")
 
-    st.dataframe(
-        df,
-        use_container_width=True
-    )
+st.dataframe(
+    df,
+    use_container_width=True
+)
