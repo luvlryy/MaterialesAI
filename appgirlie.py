@@ -1,6 +1,6 @@
 # =========================================================
-# 🌴 MATERIAL WEB 2007 🌴
-# Portal de Ingeniería de Materiales - Tropical Edition
+# MATERIAL WORLD - 2007 TROPICAL EDITION 🌴💿
+# Interfaz Y2K / Blog de Ingeniería
 # =========================================================
 
 import streamlit as st
@@ -17,13 +17,13 @@ from sklearn.metrics.pairwise import euclidean_distances
 # =========================================================
 
 st.set_page_config(
-    page_title="Material Web 2007",
+    page_title="Material World 2007",
     page_icon="🌴",
     layout="wide"
 )
 
 # =========================================================
-# CARGAR BASE DE DATOS
+# CARGA DE BASE DE DATOS
 # =========================================================
 
 @st.cache_data
@@ -32,11 +32,11 @@ def load_data():
     df.columns = df.columns.astype(str).str.strip()
     return df
 
-df = load_data()
-
-# =========================================================
-# COLUMNAS NUMÉRICAS
-# =========================================================
+try:
+    df = load_data()
+except Exception as e:
+    st.error(f"Error al cargar la base de datos: {e}")
+    st.stop()
 
 columnas_numericas = ["Su", "Sy", "A5", "Bhn", "E", "G"]
 
@@ -46,117 +46,135 @@ for col in columnas_numericas:
 df = df.dropna(subset=columnas_numericas)
 
 # =========================================================
-# CSS ESTILO WEB 2.0 TROPICAL (2007)
+# ESTILO Y2K TROPICAL 2007 (CSS)
 # =========================================================
 
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Tahoma:wght@400;700&display=swap');
+/* Importar tipografía retro (Verdana/Tahoma vibes) */
+@import url('https://fonts.googleapis.com/css2?family=VT323&family=Work+Sans:wght@400;700&display=swap');
 
 html, body, [class*="css"] {
-    font-family: 'Tahoma', 'Verdana', sans-serif;
+    font-family: 'Work Sans', sans-serif;
 }
 
 /* FONDO TROPICAL 2007 */
 .stApp {
-    background: linear-gradient(135deg, #00CED1 0%, #FF1493 50%, #FFA500 100%);
+    background: linear-gradient(135deg, #00CED1 0%, #40E0D0 25%, #FFA500 70%, #FF69B4 100%);
     background-attachment: fixed;
 }
 
-/* SIDEBAR */
+/* BARRA LATERAL */
 section[data-testid="stSidebar"] {
-    background: rgba(255, 255, 255, 0.9);
-    border-right: 4px solid #FF8C00;
+    background: rgba(255, 255, 255, 0.85);
+    border-right: 5px dashed #FF8C00;
 }
 
 /* TÍTULO PRINCIPAL */
 h1 {
+    font-family: 'VT323', monospace;
     color: #FFFFFF !important;
     text-align: center;
-    font-size: 55px !important;
-    text-shadow: 2px 2px 4px #FF1493, -2px -2px 4px #00CED1;
-    background: rgba(0, 0, 0, 0.3);
-    border: 4px solid #FFFFFF;
-    border-radius: 15px;
+    font-size: 70px !important;
+    text-shadow: 4px 4px #FF69B4, -4px -4px #00CED1;
+    background: rgba(0, 0, 0, 0.2);
+    border: 4px solid #FFA500;
+    border-radius: 0px;
     padding: 15px;
-    margin-bottom: 20px;
+    box-shadow: 10px 10px 0px #FF1493;
+    letter-spacing: 2px;
 }
 
-/* CAJAS WEB 2.0 */
-.web20-box {
-    background: rgba(255, 255, 255, 0.9);
-    border: 2px solid #00CED1;
-    border-radius: 15px;
+/* CAJAS DE CONTENIDO (ESTILO BLOG ANTIGUO) */
+.retro-box {
+    background: rgba(255, 255, 255, 0.95);
+    border: 3px solid #00CED1;
+    border-top: 15px solid #FF8C00;
     padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 4px 4px 10px rgba(0,0,0,0.2);
+    margin-bottom: 25px;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
     color: #333;
 }
 
-/* CAJAS DE CHISMES */
-.gossip-box {
-    background: linear-gradient(to right, #FFF0F5, #FFE4E1);
-    border-left: 8px solid #FF1493;
-    border-radius: 10px;
-    padding: 15px;
-    margin-bottom: 20px;
-    box-shadow: 3px 3px 8px rgba(0,0,0,0.15);
-}
-
-.gossip-title {
-    color: #FF1493;
-    font-size: 22px;
-    font-weight: bold;
-    margin-bottom: 10px;
+/* SUBTÍTULOS */
+h2, h3 {
+    color: #FF8C00 !important;
     text-transform: uppercase;
+    font-weight: bold;
+    border-bottom: 2px dotted #00CED1;
+    padding-bottom: 5px;
 }
 
 /* TABS */
 .stTabs [data-baseweb="tab"] {
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 10px 10px 0px 0px;
-    border: 2px solid #FF8C00;
+    background: #00CED1;
+    border: 2px solid #FFFFFF;
     margin-right: 5px;
-    padding: 10px;
-    font-weight: bold;
-    color: #00CED1;
+    padding: 10px 20px;
+    font-family: 'VT323', monospace;
+    font-size: 24px;
+    color: #FFFFFF !important;
+    text-shadow: 1px 1px #333;
+}
+.stTabs [aria-selected="true"] {
+    background: #FF8C00 !important;
+    border-bottom: none;
 }
 
-.stTabs [aria-selected="true"] {
-    background: #FFFFFF;
-    border-bottom: none;
-    color: #FF1493;
+/* BOTONES */
+.stButton>button {
+    background: #FF69B4;
+    color: white;
+    border: 2px solid #FFFFFF;
+    font-family: 'VT323', monospace;
+    font-size: 24px;
+    width: 100%;
+    box-shadow: 3px 3px 0px #00CED1;
+    transition: 0.1s;
+}
+.stButton>button:active {
+    box-shadow: 0px 0px 0px;
+    transform: translateY(3px) translateX(3px);
+}
+
+/* EXPANDERS (CHISMES) */
+.streamlit-expanderHeader {
+    font-weight: bold !important;
+    font-size: 18px !important;
+    color: #FFFFFF !important;
+    background-color: #FF1493 !important;
+    border: 2px solid #FFA500 !important;
 }
 </style>
 """, unsafe_allow_html=True)
 
 # =========================================================
-# HEADER Y BANNER GENERAL
+# HEADER
 # =========================================================
 
-st.title("🌐 MATERIAL ZONE '07 🌐")
-
-# 📸 FOTO GENERAL AQUÍ (Tamaño: 1200 x 400 px aprox)
-# Reemplaza "ruta_de_tu_banner.jpg" por el nombre de tu archivo
-# st.image("ruta_de_tu_banner.jpg", use_column_width=True)
+st.title("🌴 MATERIAL WORLD // 2007 🌴")
 
 st.markdown("""
-<div class="web20-box" style="text-align: center;">
-<h3 style="color: #FF8C00;">Bienvenido a la red de materiales más grande de la web</h3>
-<p>Explora la base de datos, encuentra materiales según sus propiedades mecánicas, 
-y entérate de los últimos escándalos de la industria metalúrgica.</p>
+<div class="retro-box">
+<p style="text-align:center; font-size:18px; font-weight:bold;">
+Bienvenido al portal definitivo de ciencia de materiales.<br>
+[Buscador de Aleaciones] | [Calculadora de Propiedades] | [Blog de Noticias] | [Foro]
+</p>
 </div>
 """, unsafe_allow_html=True)
+
+# LÍNEA 149 - IMAGEN PRINCIPAL (TAMAÑO RECOMENDADO: 1200 x 300)
+st.image("https://via.placeholder.com/1200x300/40E0D0/FFFFFF?text=Tu+Banner+Principal+Aqui+(1200x300)", use_container_width=True)
 
 # =========================================================
 # TABS
 # =========================================================
 
 tab1, tab2, tab3, tab4 = st.tabs([
-    "🛠️ Sistema de Recomendación",
-    "🔍 Buscador de Materiales",
-    "🔥 ESCÁNDALO DE LA SEMANA",
-    "🕹️ Pop Quiz"
+    "⚙️ Recomendador",
+    "🔍 Buscador",
+    "📰 EL ESCÁNDALO DE LA SEMANA",
+    "🕹️ Quiz Zone"
 ])
 
 # =========================================================
@@ -164,8 +182,8 @@ tab1, tab2, tab3, tab4 = st.tabs([
 # =========================================================
 
 with tab1:
-    st.header("🛠️ Motor de Búsqueda por Propiedades")
-    st.sidebar.title("⚙️ Parámetros")
+    st.header("Análisis de Propiedades")
+    st.sidebar.title("Parámetros de Entrada")
 
     uts = st.sidebar.slider("Resistencia máxima (Su)", int(df["Su"].min()), int(df["Su"].max()), int(df["Su"].mean()))
     ys = st.sidebar.slider("Límite elástico (Sy)", int(df["Sy"].min()), int(df["Sy"].max()), int(df["Sy"].mean()))
@@ -174,7 +192,7 @@ with tab1:
     young = st.sidebar.slider("Módulo Young (E)", int(df["E"].min()), int(df["E"].max()), int(df["E"].mean()))
     corte = st.sidebar.slider("Módulo cortante (G)", int(df["G"].min()), int(df["G"].max()), int(df["G"].mean()))
 
-    if st.sidebar.button("Buscar coincidencias"):
+    if st.sidebar.button("Ejecutar Análisis"):
         features = ["Su", "Sy", "A5", "Bhn", "E", "G"]
         scaler = MinMaxScaler()
         X = scaler.fit_transform(df[features])
@@ -182,14 +200,12 @@ with tab1:
         distancias = euclidean_distances(usuario, X)
         indices = np.argsort(distancias[0])[:5]
         mejores = df.iloc[indices].copy()
-        mejores["Compatibilidad %"] = [round(100 / (1 + d), 2) for d in distancias[0][indices]]
+        mejores["Match %"] = [round(100 / (1 + d), 2) for d in distancias[0][indices]]
 
-        st.markdown('<div class="web20-box">', unsafe_allow_html=True)
-        st.subheader("Resultados de Similitud")
-        st.dataframe(mejores[["Material", "Heat treatment", "Compatibilidad %"]], use_container_width=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+        st.subheader("Resultados del algoritmo")
+        st.dataframe(mejores[["Material", "Heat treatment", "Match %"]], use_container_width=True)
 
-        fig = px.scatter(mejores, x="Bhn", y="Su", color="Material", size="Compatibilidad %", text="Material")
+        fig = px.scatter(mejores, x="Bhn", y="Su", color="Material", size="Match %", text="Material")
         fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(255,255,255,0.8)", height=500)
         st.plotly_chart(fig, use_container_width=True)
 
@@ -198,154 +214,191 @@ with tab1:
 # =========================================================
 
 with tab2:
-    st.header("🔍 Buscador de Base de Datos")
-    st.markdown('<div class="web20-box"><p>Ingresa una palabra clave o parte del nombre del material.</p></div>', unsafe_allow_html=True)
+    st.header("Buscador de Base de Datos")
     
-    busqueda = st.text_input("Palabra clave:")
+    st.markdown("""
+    <div class="retro-box">
+    Ingresa cualquier término (nombre del material, tratamiento térmico, o número) para buscar en nuestra base.
+    </div>
+    """, unsafe_allow_html=True)
+    
+    busqueda = st.text_input("Buscar material:")
 
     if busqueda:
-        # Busca coincidencias exactas o parciales, ignorando mayúsculas/minúsculas
-        mask = df["Material"].astype(str).str.contains(busqueda, case=False, na=False)
-        resultados = df[mask]
+        # Buscador 100% efectivo: busca el texto en cualquier columna, sin importar mayúsculas/minúsculas
+        mask = np.column_stack([df[col].astype(str).str.contains(busqueda, case=False, na=False) for col in df.columns])
+        resultados = df.loc[mask.any(axis=1)]
 
         if len(resultados) > 0:
-            st.success(f"Se encontraron {len(resultados)} coincidencias.")
+            st.success(f"Búsqueda finalizada. {len(resultados)} coincidencias encontradas.")
             
-            for i in range(min(5, len(resultados))):
+            for i in range(min(10, len(resultados))):
                 material = resultados.iloc[i]
                 
-                col_texto, col_foto = st.columns([2, 1])
-                
-                with col_texto:
-                    st.markdown(f"""
-                    <div class="web20-box">
-                    <h3 style="color:#00CED1;">{material['Material']}</h3>
-                    <ul>
-                        <li><b>Tratamiento Térmico:</b> {material['Heat treatment']}</li>
-                        <li><b>Resistencia (Su):</b> {material['Su']} MPa</li>
-                        <li><b>Elongación (A5):</b> {material['A5']}%</li>
-                        <li><b>Dureza (Bhn):</b> {material['Bhn']} HB</li>
-                    </ul>
-                    </div>
-                    """, unsafe_allow_html=True)
-                
-                with col_foto:
-                    # 📸 FOTO PARA EL BUSCADOR AQUÍ (Tamaño: 400 x 300 px aprox)
-                    # st.image("foto_resultado.jpg", caption=material['Material'])
-                    st.info("Espacio para foto del material (400x300)")
-
+                st.markdown(f"""
+                <div class="retro-box" style="border-top: 5px solid #00CED1;">
+                <h3>{material['Material']}</h3>
+                <p><b>Tratamiento:</b> {material['Heat treatment']}</p>
+                <p><b>Resistencia (Su):</b> {material['Su']} MPa | <b>Dureza:</b> {material['Bhn']} HB</p>
+                <p><b>Elongación:</b> {material['A5']}%</p>
+                </div>
+                """, unsafe_allow_html=True)
         else:
-            st.error("No se encontraron coincidencias en la base de datos.")
+            st.error("Error 404: Material no encontrado en la base de datos.")
 
 # =========================================================
-# TAB 3: ESCÁNDALO DE LA SEMANA (LOS 10 CHISMES PICANTES)
+# TAB 3: EL ESCÁNDALO DE LA SEMANA (VLOG)
 # =========================================================
 
 with tab3:
-    st.header("🔥 EL ESCÁNDALO DE LA SEMANA 🔥")
-    st.write("Exclusivas, toxicidad y traiciones en la tabla periódica y la industria.")
+    st.header("📰 EL ESCÁNDALO DE LA SEMANA")
+    st.write("Exclusivas, traiciones químicas y el lado oscuro de la tabla periódica.")
 
-    chismes = [
-        {
-            "titulo": "¡EL BLOQUEO! EL ACERO INOXIDABLE Y LA CORROSIÓN NO SE HABLAN",
-            "texto": "Me enteré que el Inoxidable bloqueó definitivamente a la Corrosión. Gracias a su capa pasiva de óxido de cromo (mínimo 10.5%), literalmente se volvió intocable. La Corrosión intentó acercarse en un ambiente marino, pero fue totalmente ignorada. ¡Soporta!",
-            "foto_placeholder": "foto_chisme_1.jpg"
-        },
-        {
-            "titulo": "EL TITANIO: ¿SUGAR DADDY O MATERIAL SOBREVALORADO?",
-            "texto": "Todos sabemos que el Titanio es carísimo. Su biocompatibilidad lo hace el VIP de los implantes médicos, pero los ingenieros mecánicos se quejan en secreto de que es una pesadilla maquinarlo. ¿Vale la pena su ratio resistencia-peso o es pura vanidad presupuestal?",
-            "foto_placeholder": "foto_chisme_2.jpg"
-        },
-        {
-            "titulo": "CANCELADO: EL PLOMO QUEDA FUERA DE LA INDUSTRIA",
-            "texto": "¡Se acabó su carrera! El Plomo, que alguna vez fue la estrella de las pinturas y gasolinas, ha sido 'cancelado' globalmente. Su toxicidad salió a la luz y su peso excesivo ya no justifica su presencia. Nadie quiere asociarse con él.",
-            "foto_placeholder": "foto_chisme_3.jpg"
-        },
-        {
-            "titulo": "EL COBRE Y SUS CONEXIONES... CON TODOS",
-            "texto": "Fuentes cercanas confirman que el Cobre sigue siendo el más solicitado a altas horas de la noche para conducir corrientes. Aunque la Plata conduce mejor, es demasiado exclusiva. El Cobre no discrimina: está en todos los cables, en todas las casas.",
-            "foto_placeholder": "foto_chisme_4.jpg"
-        },
-        {
-            "titulo": "PELEA EN LA BÁSCULA: ALUMINIO HUMILLA AL ACERO",
-            "texto": "¡Las comparaciones destruyen! El Aluminio anda publicando que su densidad es casi un tercio de la del Acero. Y aunque no aguanta tantos golpes, la industria aeroespacial lo coronó como su favorito. El Acero se quedó llorando en la industria automotriz.",
-            "foto_placeholder": "foto_chisme_5.jpg"
-        },
-        {
-            "titulo": "LA DOBLE VIDA DEL MERCURIO",
-            "texto": "Es el único metal que se niega a madurar y solidificarse a temperatura ambiente. El Mercurio es líquido, volátil y sumamente tóxico. Se la pasa engañando a los termómetros antiguos, pero hoy en día está más que prohibido en los laboratorios modernos.",
-            "foto_placeholder": "foto_chisme_6.jpg"
-        },
-        {
-            "titulo": "DIAMANTE: LA FALSA EXCLUSIVIDAD AL DESCUBIERTO",
-            "texto": "Se vende como el material más duro e invaluable, pero los ingenieros revelaron la verdad: los diamantes sintéticos hacen el mismo trabajo en las herramientas de corte y por una fracción del precio. Su marketing es excelente, pero estructuralmente, está sobrevalorado.",
-            "foto_placeholder": "foto_chisme_7.jpg"
-        },
-        {
-            "titulo": "EL OSCURO SECRETO DEL HORMIGÓN",
-            "texto": "Parece fuerte y confiable, sostiene nuestras ciudades, pero su huella de carbono es escandalosa. La producción de cemento para el hormigón es responsable de casi el 8% de las emisiones globales. ¿Dejará la industria de encubrirlo?",
-            "foto_placeholder": "foto_chisme_8.jpg"
-        },
-        {
-            "titulo": "ORO: INTOCABLE PERO DEMASIADO SUAVE",
-            "texto": "Mucha corona, mucha resistencia a la oxidación, pero a la hora de trabajar bajo presión, el Oro se deforma. Es tan blando que necesita mezclarse con otros metales (como el cobre) para poder usarse en joyería sin abollarse con mirarlo. Pura fachada.",
-            "foto_placeholder": "foto_chisme_9.jpg"
-        },
-        {
-            "titulo": "LOS POLÍMEROS: LOS EX QUE SE NIEGAN A DESAPARECER",
-            "texto": "Terminaste con ellos, los tiraste a la basura, ¡pero los plásticos tardan cientos de años en degradarse! Prometieron ser la solución barata y ligera para los envases, y terminaron invadiendo los océanos. El nivel de apego tóxico es irreal.",
-            "foto_placeholder": "foto_chisme_10.jpg"
-        }
-    ]
+    # CHISME 1
+    with st.expander("🚨 1. EL ACERO INOXIDABLE Y LA CORROSIÓN: LA RUPTURA DEL AÑO"):
+        # LÍNEA 252 - TAMAÑO: 600x400
+        st.image("https://via.placeholder.com/600x400/FF69B4/FFFFFF?text=Foto+Acero+vs+Corrosion", use_container_width=False)
+        st.write("""
+        ¡Agárrense fuerte! Se les vio en un ambiente marino y la tensión se podía cortar con un cuchillo. 
+        Durante décadas, el Hierro y la Corrosión fueron tóxicos pero inseparables (literalmente se oxidaban juntos todo el día). 
+        Pero desde que el Hierro se juntó con el Cromo (mínimo un 10.5%, ya saben cómo es de exigente), formó su famosa capa pasiva 
+        y ahora actúa como si no conociera a la Corrosión. Intentaron acercarse la semana pasada en una plataforma petrolera, 
+        y el Acero Inoxidable ni siquiera parpadeó. ¡El mayor bloqueo en la historia de la metalurgia!
+        """)
 
-    for c in chismes:
-        colA, colB = st.columns([1, 3])
-        
-        with colA:
-            # 📸 FOTO PARA CHISMES AQUÍ (Tamaño: 300 x 300 px aprox)
-            # st.image(c["foto_placeholder"])
-            st.info(f"Foto aquí: {c['foto_placeholder']} (300x300)")
-            
-        with colB:
-            st.markdown(f"""
-            <div class="gossip-box">
-            <div class="gossip-title">{c['titulo']}</div>
-            <p>{c['texto']}</p>
-            </div>
-            """, unsafe_allow_html=True)
+    # CHISME 2
+    with st.expander("🚨 2. ROBO DE IDENTIDAD: EL BRONCE DEMANDA AL LATÓN"):
+        # LÍNEA 263 - TAMAÑO: 600x400
+        st.image("https://via.placeholder.com/600x400/FFA500/FFFFFF?text=Foto+Bronce+Latón", use_container_width=False)
+        st.write("""
+        Las aleaciones de Cobre están en los tribunales. El Bronce (Cobre + Estaño) salió a dar declaraciones fortísimas 
+        acusando al Latón (Cobre + Zinc) de robarle su estética dorada para colarse en aplicaciones arquitectónicas y de plomería 
+        donde no pertenece. "Yo soy el material de la historia, a mí me hicieron una edad entera (La Edad de Bronce). 
+        El Latón es solo una aleación barata que se hace pasar por mí en las cerraduras de las puertas", declaró el Bronce furioso. 
+        El Latón se defendió diciendo que al menos él es más fácil de maquinar. ¡Zafarrancho!
+        """)
+
+    # CHISME 3
+    with st.expander("🚨 3. EL GLOW UP DEL ALUMINIO: DE PATITO FEO A CHICO AEROESPACIAL"):
+        # LÍNEA 275 - TAMAÑO: 600x400
+        st.image("https://via.placeholder.com/600x400/00CED1/FFFFFF?text=Foto+GlowUp+Aluminio", use_container_width=False)
+        st.write("""
+        Recordemos los 1800s, cuando el Aluminio era más caro que el oro y nadie sabía qué hacer con él. 
+        Hoy, gracias al proceso Hall-Héroult, el Aluminio es el rey de la pista. Su reciente pérdida de densidad 
+        (pesando un tercio de lo que pesa el acero) lo llevó directo a firmar contratos millonarios con Boeing y Airbus. 
+        Fuentes aseguran que el Acero está furioso, llorando en el gimnasio tratando de bajar su densidad, 
+        mientras el Aluminio simplemente pasea por los cielos tomando mimosas.
+        """)
+
+    # CHISME 4
+    with st.expander("🚨 4. TITANIO: ¿EL MATERIAL MÁS SOBREVALORADO DE LA DÉCADA?"):
+        # LÍNEA 287 - TAMAÑO: 600x400
+        st.image("https://via.placeholder.com/600x400/FF1493/FFFFFF?text=Foto+Diva+Titanio", use_container_width=False)
+        st.write("""
+        Todos quieren trabajar con él, pero nadie lo soporta. El Titanio exige temperaturas de fusión ridículas, 
+        arruina las herramientas de corte en los talleres por su bajo módulo de elasticidad y encima cobra carísimo. 
+        Sí, es biocompatible y los implantes médicos lo aman, pero los ingenieros de manufactura confesaron en un foro anónimo: 
+        "Es un dolor de cabeza. Se cree indispensable solo porque tiene una relación resistencia-peso increíble". 
+        ¿Acaso estamos aguantando actitudes tóxicas solo por sus propiedades mecánicas? Sí, probablemente.
+        """)
+
+    # CHISME 5
+    with st.expander("🚨 5. LA CAÍDA EN DESGRACIA DEL PLOMO"):
+        # LÍNEA 298 - TAMAÑO: 600x400
+        st.image("https://via.placeholder.com/600x400/40E0D0/FFFFFF?text=Foto+Cancelacion+Plomo", use_container_width=False)
+        st.write("""
+        De ser el invitado de honor en tuberías romanas, pinturas renacentistas y hasta en la gasolina, el Plomo hoy 
+        está más cancelado que nadie. La revelación de que es neurotóxico destruyó su carrera por completo. 
+        Hoy en día solo se le ve en aplicaciones súper marginadas, escondido dentro de baterías de autos o como escudo 
+        contra radiación en hospitales (donde literalmente nadie quiere acercarse a él). Un final trágico para un material 
+        tan maleable.
+        """)
+
+    # CHISME 6
+    with st.expander("🚨 6. TUNGSTENO: EL CORAZÓN MÁS FRÍO DEL BARRIO"):
+        # LÍNEA 310 - TAMAÑO: 600x400
+        st.image("https://via.placeholder.com/600x400/FFA500/FFFFFF?text=Foto+Tungsteno", use_container_width=False)
+        st.write("""
+        ¡Nadie puede derretir el corazón del Tungsteno! Con el punto de fusión más alto de todos los metales (más de 3,400 °C), 
+        este tipo se ríe en la cara de los hornos industriales. Hace poco lo invitaron a una fiesta de aleaciones ligeras 
+        y arruinó el ambiente porque no quiso interactuar termodinámicamente con nadie. Ahora solo se junta con el carbono 
+        para formar Carburo de Tungsteno y romper herramientas por diversión. Insoportable pero necesario.
+        """)
+
+    # CHISME 7
+    with st.expander("🚨 7. GRAFENO: EL NEPO BABY QUE NO CUMPLE SUS PROMESAS"):
+        # LÍNEA 321 - TAMAÑO: 600x400
+        st.image("https://via.placeholder.com/600x400/00CED1/FFFFFF?text=Foto+Grafeno", use_container_width=False)
+        st.write("""
+        Lleva 15 años prometiendo revolucionar las baterías, el internet, la construcción y hasta la ropa. 
+        Todos los laboratorios le han dado presupuesto infinito. ¿Y qué nos ha entregado a nivel masivo? 
+        Algunas raquetas de tenis caras y un par de artículos de revistas. El Grafeno es puro PR y marketing científico. 
+        El Silicio, que lleva décadas haciendo el trabajo pesado en nuestros celulares, está a punto de convocar a una huelga.
+        """)
+
+    # CHISME 8
+    with st.expander("🚨 8. COBRE, A PUNTO DEL BURNOUT"):
+        # LÍNEA 331 - TAMAÑO: 600x400
+        st.image("https://via.placeholder.com/600x400/FF69B4/FFFFFF?text=Foto+Cobre+Burnout", use_container_width=False)
+        st.write("""
+        Trabaja de lunes a domingo. Conduce electricidad en tu celular, en tu refrigerador, en las redes eléctricas de toda la ciudad. 
+        El Cobre no descansa, y se le nota: últimamente se calienta demasiado rápido (efecto Joule, le dicen sus terapeutas). 
+        Le sugirieron delegar responsabilidades a la Plata, pero ella cobra carísimo por hora, así que el Cobre sigue 
+        esclavizado. ¡Exigimos vacaciones para las redes cristalinas FCC!
+        """)
+
+    # CHISME 9
+    with st.expander("🚨 9. POLÍMEROS (PLÁSTICOS): LA DEMANDA DEL MILENIO"):
+        # LÍNEA 342 - TAMAÑO: 600x400
+        st.image("https://via.placeholder.com/600x400/FF8C00/FFFFFF?text=Foto+Polimeros", use_container_width=False)
+        st.write("""
+        Fueron la sensación de los años 50. Versátiles, baratos y moldeables. Parecían perfectos, hasta que el Océano 
+        presentó una demanda colectiva por ocupación ilegal de espacio. Ahora, materiales como el PET y el PVC están en medio 
+        de un escándalo de relaciones públicas intentando lavar su imagen con campañas de "biodegradabilidad" que nadie les cree. 
+        Se espera un juicio de miles de años (literalmente, lo que tardan en degradarse).
+        """)
+
+    # CHISME 10
+    with st.expander("🚨 10. EL ORO SE NIEGA A SOCIALIZAR"):
+        # LÍNEA 352 - TAMAÑO: 600x400
+        st.image("https://via.placeholder.com/600x400/FF1493/FFFFFF?text=Foto+Oro+Noble", use_container_width=False)
+        st.write("""
+        "Soy un metal noble. No me oxido, no reacciono, no me mezclo con plebeyos", fue la última declaración del Oro 
+        antes de encerrarse en una caja fuerte. A diferencia de metales reactivos que arman fiestas químicas con el oxígeno 
+        y el agua (¡hola Sodio, sabemos que te encanta explotar!), el Oro mantiene su estructura inalterable. 
+        Mucha arrogancia, pero al final del día todos sabemos que es demasiado suave para el trabajo pesado industrial y 
+        depende del Cobre o la Plata para tener algo de dureza. ¡Atrapada!
+        """)
 
 # =========================================================
-# TAB 4: POP QUIZ
+# TAB 4: QUIZ ZONE
 # =========================================================
 
 with tab4:
-    st.header("🕹️ Centro de Evaluación (Pop Quiz)")
-    st.markdown('<div class="web20-box">Demuestra tus conocimientos técnicos.</div>', unsafe_allow_html=True)
+    st.header("Test de Conocimientos")
     
     preguntas = [
-        {"q": "¿Qué material es famoso por ser ligero y dominar la industria aeroespacial?", "op": ["Titanio", "Aluminio", "Plomo"], "ans": "Aluminio"},
-        {"q": "¿Cuál es la aleación principal que forma el Acero?", "op": ["Hierro + Carbono", "Cobre + Estaño", "Aluminio + Cobre"], "ans": "Hierro + Carbono"},
-        {"q": "¿Qué metal líquido a temperatura ambiente fue prohibido por tóxico?", "op": ["Mercurio", "Galio", "Bromo"], "ans": "Mercurio"},
-        {"q": "Si necesitas excelente conductividad eléctrica a bajo costo, usas:", "op": ["Plata", "Cobre", "Oro"], "ans": "Cobre"},
-        {"q": "¿Qué propiedad define la capacidad de un material de rayar a otro?", "op": ["Tenacidad", "Dureza", "Ductilidad"], "ans": "Dureza"}
+        {"q": "¿Qué material es la estrella principal en la industria aeroespacial por su baja densidad?", "o": ["Titanio", "Aluminio", "Cobre"], "c": "Aluminio", "r": "El aluminio tiene una densidad aproximada de 2.7 g/cm³, perfecto para volar."},
+        {"q": "¿Qué adición principal convierte al hierro en acero?", "o": ["Cromo", "Carbono", "Zinc"], "c": "Carbono", "r": "El carbono se aloja en los intersticios del hierro, aumentando drástastically su resistencia mecánica."},
+        {"q": "Material conocido por su excelente conductividad, usado masivamente en cableado:", "o": ["Cobre", "Níquel", "Estaño"], "c": "Cobre", "r": "Aunque la plata es mejor, el cobre ofrece el mejor balance costo/beneficio en conductividad."},
+        {"q": "¿Qué propiedad indica la capacidad de un material de deformarse antes de romperse?", "o": ["Dureza", "Elongación", "Resiliencia"], "c": "Elongación", "r": "A mayor elongación (ductilidad), más 'estirable' es el material antes de la fractura."},
+        {"q": "¿Qué elemento hace al acero 'inoxidable'?", "o": ["Níquel", "Vanadio", "Cromo"], "c": "Cromo", "r": "El cromo forma una fina capa pasiva de óxido de cromo que detiene la oxidación del hierro."}
     ]
 
-    if 'quiz_q' not in st.session_state:
-        st.session_state.quiz_q = random.choice(preguntas)
+    if 'pregunta_actual' not in st.session_state:
+        st.session_state.pregunta_actual = random.choice(preguntas)
 
-    p = st.session_state.quiz_q
+    p = st.session_state.pregunta_actual
 
-    st.markdown(f"<h3 style='color:#FF1493;'>{p['q']}</h3>", unsafe_allow_html=True)
-    respuesta = st.radio("Selecciona tu respuesta:", p["op"])
+    st.markdown(f"<div class='retro-box'><h3>{p['q']}</h3></div>", unsafe_allow_html=True)
+    respuesta = st.radio("Selecciona tu respuesta:", p["o"])
 
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button("Verificar Respuesta"):
-            if respuesta == p["ans"]:
-                st.success("¡Correcto! Respuesta exacta.")
-            else:
-                st.error(f"Incorrecto. La respuesta era: {p['ans']}")
-    with col2:
-        if st.button("Siguiente Pregunta"):
-            st.session_state.quiz_q = random.choice(preguntas)
-            st.rerun()
+    if st.button("Verificar respuesta"):
+        if respuesta == p["c"]:
+            st.success(f"¡Correcto! {p['r']}")
+        else:
+            st.error(f"Error. La respuesta era {p['c']}. {p['r']}")
+            
+    if st.button("Generar otra pregunta"):
+        st.session_state.pregunta_actual = random.choice(preguntas)
+        st.rerun()
