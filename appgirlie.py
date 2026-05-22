@@ -14,7 +14,7 @@ from sklearn.metrics.pairwise import euclidean_distances
 
 # =========================================================
 # CONFIGURACIÓN
-# =========================================================
+# ========================================================
 
 st.set_page_config(
     page_title="Material World 2007",
