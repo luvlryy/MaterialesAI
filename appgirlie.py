@@ -102,5 +102,9 @@ def match():
 
     return jsonify(res.fillna("N/A").to_dict(orient="records"))
 
+import os
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    # Lee el puerto que le da Render, y si no encuentra ninguno (local), usa el 5000
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
