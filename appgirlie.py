@@ -378,3 +378,4 @@ with tab3:
         "⚡", "Estresada 🤯", "Destiny's Child - Survivor",
         "Trabaja 24/7 conduciendo electricidad en tu teléfono, tu refri y las calles de tu ciudad. El Cobre está sufriendo de un sobrecalentamiento crónico (Efecto Joule). Podría pedirle ayuda a la Plata, pero ella es demasiado 'High Maintenance'. ¡Exigimos vacaciones para el pobre Cobre!",
         "https://via.placeholder.com/800x400/CD853F/FFFFFF?text=FOTO+COBRE+(800x400)"
+)
