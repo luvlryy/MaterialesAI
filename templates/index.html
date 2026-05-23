@@ -121,10 +121,11 @@ body {
     padding: 15px;
     margin-bottom: 25px;
 }
-.post-title { color: #5a67d8; font-size: 20px; margin-bottom: 5px; font-family: 'Tahoma', sans-serif; }
+.post-title { color: #5a67d8; font-size: 20px; margin-bottom: 5px; font-family: 'Tahoma', sans-serif; font-weight: bold; }
 .post-date { color: #64748b; font-size: 11px; margin-bottom: 10px; }
 .post-img { width: 100%; border: 2px solid #94a3b8; margin-bottom: 10px; }
-.mood { background: #e0e7ff; border: 1px dashed #a3b8f7; padding: 8px; font-size: 11px; color: #3730a3; margin-top: 10px; }
+.mood { background: #e0e7ff; border: 1px dashed #a3b8f7; padding: 8px; font-size: 11px; color: #3730a3; margin-top: 10px; font-weight: bold; }
+.post-text { font-size: 13px; line-height: 1.6; white-space: pre-wrap; color: #333; }
 
 /* ---------------- INPUTS ---------------- */
 .search-box, textarea {
@@ -187,8 +188,8 @@ iframe { border: 2px inset #94a3b8; background: #000; }
     <div class="module">
         <h3>User Profile 💿</h3>
         <div class="profile-drop" id="drop-zone-profile">
-            <img id="profile-pic" src="https://upload.wikimedia.org/wikipedia/commons/1/12/Usuario_anonimo.PNG" style="width:100%; border:2px solid #94a3b8; margin-bottom:10px;">
-            <p style="font-size:10px; margin:0; color:#64748b;">Arrastra una foto aquí 📁</p>
+            <img id="profile-pic" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" style="width:100%; border:2px solid #94a3b8; margin-bottom:10px;">
+            <p style="font-size:10px; margin:0; color:#64748b;">Arrastra tu foto aquí 📁</p>
         </div>
 
         <label for="upload-photo" class="btn-action" style="text-align:center;">
@@ -197,7 +198,7 @@ iframe { border: 2px inset #94a3b8; background: #000; }
         <input type="file" id="upload-photo" accept="image/*" style="display:none;" onchange="cambiarFoto(event)">
 
         <div style="line-height:1.8; margin-top:15px; font-size:12px; border-top:1px dashed #cbd5e1; padding-top:10px;">
-            <b>ID:</b> <span id="p-name">Admin_Mat99</span><br>
+            <b>ID:</b> <span id="p-name">Usuario_Anonimo</span><br>
             <b>Loc:</b> <span id="p-loc">Main Lab</span><br>
             <b>Status:</b> <span id="p-mood">Investigando 🔍</span>
         </div>
@@ -234,10 +235,10 @@ iframe { border: 2px inset #94a3b8; background: #000; }
         <textarea id="newContent" placeholder="Describe tu descubrimiento..." style="height:80px;"></textarea>
         
         <div class="profile-drop" id="drop-zone-post">
-            <p style="font-size:11px; margin:5px; color:#64748b;">Arrastra una imagen de evidencia aquí 📁</p>
+            <p style="font-size:11px; margin:5px; color:#64748b;">Arrastra una imagen o GIF de evidencia aquí 📁</p>
             <img id="post-preview" style="display:none; width:100%; border:2px solid #cbd5e1; margin-top:10px;">
         </div>
-        <input type="text" id="newImage" class="search-box" placeholder="O pega un enlace de imagen HTTP...">
+        <input type="text" id="newImage" class="search-box" placeholder="O pega un enlace directo de imagen/GIF...">
 
         <button class="btn-action" onclick="crearPost()">Subir al Servidor ⬆️</button>
     </div>
@@ -247,11 +248,11 @@ iframe { border: 2px inset #94a3b8; background: #000; }
 
 <div id="videos" class="section">
     <h2 style="color:#0284c7; border-bottom:2px solid #e2e8f0; padding-bottom:5px;">📺 Archivos de Media (Videos)</h2>
-    <p style="font-size: 12px; color:#64748b;">Sube videos informativos de YouTube para la comunidad.</p>
+    <p style="font-size: 12px; color:#64748b;">Aprende más sobre las aleaciones con nuestros documentales.</p>
 
     <div class="media-player">
-        <div class="media-header">▶ NOW PLAYING: Documental Materiales 2006</div>
-        <iframe width="100%" height="315" src="https://www.youtube.com/embed/g2qJ3r8-ZJ0?si=m5l9W6W1V2V2V2V2" frameborder="0" allowfullscreen></iframe>
+        <div class="media-header">▶ NOW PLAYING: Intro al Vlog y Aleaciones Exóticas</div>
+        <iframe width="100%" height="315" src="https://www.youtube.com/embed/duseIcqKNJI" frameborder="0" allowfullscreen></iframe>
     </div>
 
     <div style="background: #f1f5f9; padding:15px; border:1px solid #cbd5e1;">
@@ -265,7 +266,7 @@ iframe { border: 2px inset #94a3b8; background: #000; }
 
 <div id="search" class="section">
     <h2 style="color:#0284c7; border-bottom:2px solid #e2e8f0; padding-bottom:5px;">🔍 Búsqueda en Base de Datos</h2>
-    <input type="text" id="searchInput" class="search-box" placeholder="Ingresa nombre de aleación o tratamiento..." onkeyup="buscarBackend()">
+    <input type="text" id="searchInput" class="search-box" placeholder="Busca aleaciones (Magnesio, Titanio, Aluminio...)" onkeyup="buscarBackend()">
     <div id="searchResults"></div>
 </div>
 
@@ -369,7 +370,7 @@ function cargarPosts(){
                 <h3 class="post-title">${post.title}</h3>
                 <div class="post-date">📅 Date: ${post.date}</div>
                 ${post.image ? `<img src="${post.image}" class="post-img">` : ""}
-                <p style="font-size:13px; line-height:1.6; white-space: pre-wrap;">${post.content}</p>
+                <div class="post-text">${post.content}</div>
                 <div class="mood">STATUS: ${post.mood}</div>
             </div>`;
         });
@@ -466,9 +467,10 @@ function calcularMatch(){
 // QUIZ
 const preguntas = [
     { q:"¿Qué aleación usas en la industria aeroespacial por su densidad de 2.7 g/cm³?", o:["Titanio","Aluminio","Cobre"], c:"Aluminio" },
-    { q:"¿Cuál es la adición mágica que convierte hierro en acero resistente?", o:["Carbono","Cromo","Zinc"], c:"Carbono" },
+    { q:"El metal de los dioses, super resistente y biocompatible, pero imposible de maquinar:", o:["Grafeno","Titanio","Zinc"], c:"Titanio" },
     { q:"¿Por qué el cobre domina el mundo del cableado?", o:["Es el más barato","Conduce electricidad increíblemente bien","No se oxida"], c:"Conduce electricidad increíblemente bien" },
-    { q:"¿Cómo evitas la corrosión en el acero?", o:["Añadiendo Cromo","Añadiendo Cobre","Añadiendo Plomo"], c:"Añadiendo Cromo" }
+    { q:"Si dejo Magnesio al aire y le acerco fuego, ¿qué pasa?", o:["Nada","Se oxida lento","Arde con una luz blanca deslumbrante"], c:"Arde con una luz blanca deslumbrante" },
+    { q:"¿Qué pátina tóxica de color verde desarrolla el cobre cuando se oxida?", o:["Carbonato de Cobre","Óxido de Titanio","Alúmina"], c:"Carbonato de Cobre" }
 ];
 
 let actual = {};
