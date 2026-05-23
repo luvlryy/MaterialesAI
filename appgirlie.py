@@ -7,26 +7,26 @@ import os
 
 app = Flask(__name__)
 
-# ---------------- POSTS EN MEMORIA (GIFS Y CHISMES ACTUALIZADOS) ---------------- #
+# ---------------- POSTS EN MEMORIA (CON INTRO EXCLUSIVA Y SIN ACEROS) ---------------- #
 blog_posts = [
     {
         "title": "💿 BIENVENIDOS A MATERIALES VLOG 💿",
         "date": "01/01/2006",
-        "content": "¡Sistema iniciado! Aquí tienes tu guía de navegación:\n\n🔌 PUBLICACIONES: Sube tus propios reportes, arrastra imágenes y cuenta el chisme del laboratorio.\n📺 VIDEOS: Tu sección informativa. Pega links de YouTube para ver documentales y tutoriales sin salir de la página.\n🔍 BASE DE DATOS: Escanea nuestra red de materiales por nombre o tratamiento.\n⚙️ MATCHMAKER: Ajusta los deslizadores y la Inteligencia Artificial encontrará tu aleación perfecta.\n🎮 POP QUIZ: Demuestra que no eres un n00b en metalurgia.\n\n¡Personaliza tu perfil a la izquierda y comienza a hackear la tabla periódica! 🌐",
+        "content": "¡Sistema iniciado! Bienvenidos al rincón más exclusivo de la metalurgia en todo el internet. 🌐\n\n¿De qué va este vlog? Aquí nos enfocamos en las aleaciones más *spicy* y exóticas del laboratorio. Hablamos de Magnesio (¡super ligero y rebelde!), Titanio, Cobre, Aluminio y otros materiales de alta gama.\n\n🚨 RULE #1: Aquí NO hablamos de aceros. Son demasiado aburridos, pesados y mainstream para nosotros. Sorry not sorry.\n\n🔌 PUBLICACIONES: Sube tus reportes y cuenta el chisme.\n📺 VIDEOS: Checa el reproductor (¡acabamos de subir un video nuevo explicativo!).\n🔍 BASE DE DATOS & MATCHMAKER: Escanea aleaciones o deja que la IA busque tu match perfecto.\n\n¡Personaliza tu perfil y comienza a hackear la tabla periódica! ✨",
         "mood": "System Online 🟢",
         "image": "https://data.textstudio.com/output/sample/animated/4/6/5/6/material-16-6564.gif"
     },
     {
         "title": "El Grafeno es puro humo publicitario 📉",
         "date": "23/5/2006",
-        "content": "Llevan 10 años prometiendo elevadores espaciales y baterías infinitas. En papel es 200 veces más fuerte que el acero, pero a nivel industrial es imposible de fabricar barato. El Silicio sigue haciendo todo el trabajo sucio en nuestras computadoras mientras el Grafeno sale en las revistas. Overrated. 🙄",
+        "content": "Llevan años prometiendo elevadores espaciales y baterías infinitas. En papel es 200 veces más fuerte que todos, pero a nivel industrial es imposible de fabricar barato. El Silicio sigue haciendo todo el trabajo sucio en nuestras computadoras mientras el Grafeno sale en las revistas. Overrated. 🙄",
         "mood": "Escéptica 💻",
         "image": "https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyZWo1a29scHdvM2pmb2E4YTFqdm15MjhtNXp3MW5mcXVjcjc4eHZxdiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/5OEagxq0WJvmWAZqSu/200w.gif"
     },
     {
         "title": "El Titanio: Guapo pero Inalcanzable 🙄",
         "date": "22/5/2006",
-        "content": "Sí, es súper ligero, resistente y el cuerpo humano no lo rechaza en implantes. Pero intentar maquinarlo es una PESADILLA. Rompe las herramientas de corte, exige soldarse sin oxígeno y cobra carísimo. Tanta diva energy en un solo metal.",
+        "content": "Sí, es súper ligero, resistente y el cuerpo humano no lo rechaza en implantes. Pero intentar maquinarlo es una PESADILLA. Rompe las herramientas de corte, exige soldarse sin oxígeno y cobra carísimo. Tanta diva energy en un solo metal no es normal.",
         "mood": "Agotada 🔋",
         "image": "https://images.emojiterra.com/google/noto-emoji/unicode-15/color/256px/1f612.png"
     },
