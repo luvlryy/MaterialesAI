@@ -22,7 +22,7 @@ body {
     width: 950px;
     margin: auto;
     background: #f8f9ff;
-    border: 3px outset #c0c0c0; 
+    border: 3px outset #c0c0c0;
     border-radius: 8px;
     padding: 20px;
     box-shadow: 5px 5px 15px rgba(123, 140, 246, 0.3);
@@ -153,34 +153,58 @@ textarea { resize: vertical; }
 /* ---------------- RESULTADOS & SLIDERS ---------------- */
 .result-item { background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; margin-bottom: 10px; border-left: 4px solid #818cf8; }
 .result-item h4 { color: #3730a3; margin: 0 0 5px 0; }
-.slider-box { background: #f8fafc; border: 1px solid #e2e8f0; padding: 10px; margin-bottom: 10px; }
+.slider-box { background: #f8fafc; border: 1px solid #e2e8f0; padding: 10px; margin-bottom: 10px; position: relative;}
 .slider-box label { display: flex; justify-content: space-between; font-size: 12px; font-weight: bold; color: #475569;}
 input[type=range] { width: 100%; }
 
-/* ---------------- TOOLTIPS (Explicaciones para mortales) ---------------- */
-.help-icon {
+/* ---------------- TOOLTIPS (AYUDA PARA MORTALES) ---------------- */
+.tooltip {
     display: inline-block;
-    background: #a3b8f7;
+    background: #5a67d8;
     color: white;
     border-radius: 50%;
-    width: 16px;
-    height: 16px;
+    width: 15px;
+    height: 15px;
     text-align: center;
-    line-height: 16px;
-    font-size: 10px;
+    font-size: 11px;
+    line-height: 15px;
     cursor: help;
     margin-left: 5px;
+    position: relative;
 }
-.friendly-tag {
-    display: inline-block;
-    background: #dbeafe;
-    color: #1e40af;
-    padding: 3px 8px;
-    border-radius: 12px;
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 220px;
+    background-color: #1e293b;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px;
+    position: absolute;
+    z-index: 10;
+    bottom: 150%;
+    left: 50%;
+    margin-left: -110px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-weight: normal;
     font-size: 11px;
-    font-weight: bold;
-    margin-top: 5px;
-    border: 1px solid #93c5fd;
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.3);
+    border: 1px solid #38bdf8;
+}
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #1e293b transparent transparent transparent;
+}
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
 }
 
 /* ---------------- MEDIA PLAYER (VIDEOS) ---------------- */
@@ -203,7 +227,7 @@ iframe { border: 2px inset #94a3b8; background: #000; }
 <div class="header">
     <h1 id="main-title">Materiales Vlog 💻</h1>
     <div class="marquee">
-        <marquee scrollamount="4">>> SYSTEM ONLINE :: WELCOME TO THE DATABASE :: UPLOAD YOUR LOGS >></marquee>
+        <marquee scrollamount="4">>> SYSTEM ONLINE :: EXPLICACIONES ACTIVADAS :: LA CIENCIA ES PARA TODOS >></marquee>
     </div>
 </div>
 
@@ -214,7 +238,7 @@ iframe { border: 2px inset #94a3b8; background: #000; }
     <div class="module">
         <h3>User Profile 💿</h3>
         <div class="profile-drop" id="drop-zone-profile">
-            <img id="profile-pic" src="https://upload.wikimedia.org/wikipedia/commons/1/12/Usuario_anonimo.PNG" onerror="this.src='https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'" style="width:100%; border:2px solid #94a3b8; margin-bottom:10px;">
+            <img id="profile-pic" src="https://upload.wikimedia.org/wikipedia/commons/1/12/Usuario_anonimo.PNG" style="width:100%; border:2px solid #94a3b8; margin-bottom:10px;" onerror="this.src='https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'">
             <p style="font-size:10px; margin:0; color:#64748b;">Arrastra tu foto aquí 📁</p>
         </div>
 
@@ -226,7 +250,7 @@ iframe { border: 2px inset #94a3b8; background: #000; }
         <div style="line-height:1.8; margin-top:15px; font-size:12px; border-top:1px dashed #cbd5e1; padding-top:10px;">
             <b>ID:</b> <span id="p-name">Usuario_Anonimo</span><br>
             <b>Loc:</b> <span id="p-loc">Main Lab</span><br>
-            <b>Status:</b> <span id="p-mood">Investigando 🔍</span>
+            <b>Status:</b> <span id="p-mood">Aprendiendo 📚</span>
         </div>
         <button class="btn-action" style="margin-top:10px;" onclick="editarPerfil()">Editar Datos ✏️</button>
     </div>
@@ -258,10 +282,10 @@ iframe { border: 2px inset #94a3b8; background: #000; }
     <div class="post" style="background: #eef2ff;">
         <h3 class="post-title" style="font-size:16px;">[+] Crear Nueva Entrada</h3>
         <input type="text" id="newTitle" class="search-box" placeholder="Título del log...">
-        <textarea id="newContent" placeholder="Describe tu descubrimiento..." style="height:80px;"></textarea>
+        <textarea id="newContent" placeholder="Describe tu descubrimiento de forma fácil..." style="height:80px;"></textarea>
         
         <div class="profile-drop" id="drop-zone-post">
-            <p style="font-size:11px; margin:5px; color:#64748b;">Arrastra una imagen o GIF de evidencia aquí 📁</p>
+            <p style="font-size:11px; margin:5px; color:#64748b;">Arrastra una imagen o GIF aquí 📁</p>
             <img id="post-preview" style="display:none; width:100%; border:2px solid #cbd5e1; margin-top:10px;">
         </div>
         <input type="text" id="newImage" class="search-box" placeholder="O pega un enlace directo de imagen/GIF...">
@@ -292,36 +316,55 @@ iframe { border: 2px inset #94a3b8; background: #000; }
 
 <div id="search" class="section">
     <h2 style="color:#0284c7; border-bottom:2px solid #e2e8f0; padding-bottom:5px;">🔍 Búsqueda en Base de Datos</h2>
+    <p style="font-size: 12px; color:#475569;">Escribe el nombre de un material y te lo traduciremos a lenguaje normal.</p>
     <input type="text" id="searchInput" class="search-box" placeholder="Busca aleaciones (Magnesio, Titanio, Aluminio...)" onkeyup="buscarBackend()">
     <div id="searchResults"></div>
 </div>
 
 <div id="matchmaker" class="section">
     <h2 style="color:#7c3aed; border-bottom:2px solid #e2e8f0; padding-bottom:5px;">⚡ Algoritmo Matchmaker AI</h2>
-    <p style="font-size:12px; color:#475569;">Desliza para encontrar tu material ideal. Pasa el ratón sobre los <b>[?]</b> si no sabes qué significa algo:</p>
+    <p style="font-size:12px; color:#475569;">Ajusta los deslizadores. <b>¡Pasa el mouse sobre los signos [?] si no sabes qué significa!</b></p>
     
     <div class="slider-box">
-        <label>Resistencia Última <span class="help-icon" title="¿Qué tanto peso bruto aguanta antes de romperse por completo? (Más = Más Fuerte)">?</span> <span id="valSu">500</span></label>
+        <label>
+            <span>Resistencia (Su) <span class="tooltip">?<span class="tooltiptext">¿Cuánto peso puede aguantar antes de romperse por completo? (¡Más alto = Más fuerte!) 💪</span></span></span> 
+            <span id="valSu">500</span>
+        </label>
         <input type="range" id="su" min="100" max="2500" value="500" oninput="updateVal('su','valSu')">
     </div>
     <div class="slider-box">
-        <label>Límite Elástico <span class="help-icon" title="¿Qué tanto se puede doblar sin quedarse deformado para siempre?">?</span> <span id="valSy">400</span></label>
+        <label>
+            <span>Límite Elástico (Sy) <span class="tooltip">?<span class="tooltiptext">¿Qué tanto lo puedes doblar sin que quede chueco o deformado para siempre? 📎</span></span></span> 
+            <span id="valSy">400</span>
+        </label>
         <input type="range" id="sy" min="50" max="2000" value="400" oninput="updateVal('sy','valSy')">
     </div>
     <div class="slider-box">
-        <label>Elongación (%) <span class="help-icon" title="¿Se estira como chicle (alto %) o se rompe de golpe como vidrio (bajo %)?">?</span> <span id="valA5">15</span></label>
+        <label>
+            <span>Elongación (%) <span class="tooltip">?<span class="tooltiptext">¿Qué tanto se estira como chicle antes de romperse? (Alto = Flexible, Bajo = Quebradizo) 🤸‍♀️</span></span></span> 
+            <span id="valA5">15</span>
+        </label>
         <input type="range" id="a5" min="1" max="60" value="15" oninput="updateVal('a5','valA5')">
     </div>
     <div class="slider-box">
-        <label>Dureza Brinell <span class="help-icon" title="¿Qué tan fácil es rayarlo o hacerle una abolladura? (Más = Imposible de rayar)">?</span> <span id="valBhn">200</span></label>
+        <label>
+            <span>Dureza (BHN) <span class="tooltip">?<span class="tooltiptext">¿Qué tan difícil es rayarlo o abollarlo? (Piensa en un diamante vs plastilina) 💎</span></span></span> 
+            <span id="valBhn">200</span>
+        </label>
         <input type="range" id="bhn" min="50" max="700" value="200" oninput="updateVal('bhn','valBhn')">
     </div>
     <div class="slider-box">
-        <label>Módulo de Young <span class="help-icon" title="¿Es súper rígido (alto) o muy flexible (bajo)?">?</span> <span id="valE">200000</span></label>
+        <label>
+            <span>Módulo Young (E) <span class="tooltip">?<span class="tooltiptext">¿Qué tan "tieso" o rígido es el material? (Entre más alto, más difícil de flexionar) 📏</span></span></span> 
+            <span id="valE">200000</span>
+        </label>
         <input type="range" id="e" min="40000" max="250000" value="200000" oninput="updateVal('e','valE')">
     </div>
     <div class="slider-box">
-        <label>Módulo Cortante <span class="help-icon" title="¿Qué tanto resiste si intentas torcerlo o cortarlo con unas tijeras gigantes?">?</span> <span id="valG">80000</span></label>
+        <label>
+            <span>Módulo Cortante (G) <span class="tooltip">?<span class="tooltiptext">¿Qué tanto resiste si intentas "torcerlo" como si exprimieras una toalla mojada? 🌪️</span></span></span> 
+            <span id="valG">80000</span>
+        </label>
         <input type="range" id="g" min="15000" max="100000" value="80000" oninput="updateVal('g','valG')">
     </div>
 
@@ -330,10 +373,11 @@ iframe { border: 2px inset #94a3b8; background: #000; }
 </div>
 
 <div id="quiz" class="section">
-    <h2 style="color:#059669; border-bottom:2px solid #e2e8f0; padding-bottom:5px;">🎮 Pop Quiz de Ingeniería</h2>
+    <h2 style="color:#059669; border-bottom:2px solid #e2e8f0; padding-bottom:5px;">🎮 Pop Quiz: Edición Expandida</h2>
+    <p style="font-size: 12px; color:#475569;">Demuestra que le sabes al chisme de los materiales con estas 15 preguntas.</p>
     <div id="quiz-content" style="background:#f8fafc; padding:20px; border:2px solid #cbd5e1; margin-bottom:15px;"></div>
     <div id="quiz-feedback" style="font-weight:bold; font-size:14px; text-align:center; padding:10px;"></div>
-    <button class="btn-action" onclick="cargarPregunta()">Generar Nueva Pregunta 🔄</button>
+    <button class="btn-action" onclick="cargarPregunta()">Siguiente Pregunta 🔄</button>
 </div>
 
 </div>
@@ -469,23 +513,17 @@ function agregarVideo(){
 // SLIDERS
 function updateVal(sliderId, textId){ document.getElementById(textId).innerText = document.getElementById(sliderId).value; }
 
-// INTELIGENCIA DE ETIQUETAS PARA MORTALES
-function traducirParaMortales(su, a5, bhn) {
-    let etiquetas = "";
-    let esNormalito = true;
+// TRADUCTOR A LENGUAJE DE MORTALES (Ayuda visual)
+function getLaymanTags(su, a5, bhn) {
+    let tags = [];
+    if (bhn > 250) tags.push("💎 ¡Muy Duro! (Difícil de rayar)");
+    if (a5 > 15) tags.push("🤸‍♀️ ¡Súper Flexible! (Se estira bastante)");
+    else if (a5 > 0 && a5 <= 5) tags.push("💥 ¡Quebradizo! (Se rompe en lugar de doblarse)");
+    if (su > 800) tags.push("💪 ¡Ultra Fuerte! (Aguanta muchísimo peso)");
     
-    // Convertir a número (por si vienen como "N/A" o String)
-    let fuerza = parseFloat(su);
-    let elongacion = parseFloat(a5);
-    let dureza = parseFloat(bhn);
-
-    if (dureza > 250) { etiquetas += "<span class='friendly-tag'>💎 Súper Duro (Imposible de rayar)</span> "; esNormalito = false; }
-    if (fuerza > 800) { etiquetas += "<span class='friendly-tag'>💪 Fuerza Bruta (Soporta muchísimo peso)</span> "; esNormalito = false; }
-    if (elongacion > 20) { etiquetas += "<span class='friendly-tag'>🤸‍♀️ Muy Flexible (No se rompe fácil)</span> "; esNormalito = false; }
+    if (tags.length === 0) return "<span style='background:#dbeafe; padding:3px; border-radius:3px; font-size:11px;'>✨ Material Balanceado y Normalito</span>";
     
-    if (esNormalito) { etiquetas = "<span class='friendly-tag'>✨ Material Balanceado (Útil para todo)</span>"; }
-    
-    return etiquetas;
+    return tags.map(t => `<span style="background:#fef08a; padding:3px; border-radius:3px; font-size:11px; margin-right:5px; border:1px solid #eab308;">${t}</span>`).join('');
 }
 
 // BUSCADOR
@@ -499,14 +537,12 @@ function buscarBackend(){
         if(data.length === 0){ div.innerHTML = "<p style='font-size:12px; color:red;'>[!] Material no encontrado en la base.</p>"; return; }
         data.forEach(mat => {
             let nombreMaterial = mat.Material || mat.material || "Desconocido";
-            let tratamiento = mat['Heat treatment'] || "Ninguno";
-            let explicacionFriendly = traducirParaMortales(mat.Su, mat.A5, mat.Bhn);
-            
+            let tags = getLaymanTags(mat.Su || 0, mat.A5 || 0, mat.Bhn || 0);
             div.innerHTML += `
                 <div class="result-item">
                     <h4>${nombreMaterial}</h4>
-                    <div>${explicacionFriendly}</div>
-                    <p style="font-size:11px; margin:8px 0 0 0; color:#64748b;">⚙️ <b>Specs:</b> Tratamiento: ${tratamiento} | Su: ${mat.Su || 'N/A'} MPa | Dureza: ${mat.Bhn || 'N/A'} HB</p>
+                    <div style="margin:5px 0;">${tags}</div>
+                    <p style="font-size:11px; margin:5px 0; color:#64748b;">(Datos nerds: Tratamiento ${mat['Heat treatment'] || 'N/A'} | Su: ${mat.Su || 'N/A'} MPa | Dureza: ${mat.Bhn || 'N/A'} HB)</p>
                 </div>`;
         });
     });
@@ -521,25 +557,33 @@ function calcularMatch(){
         let div = document.getElementById("matchResults"); div.innerHTML = "";
         data.forEach(mat => {
             let nombre = mat.Material || mat.material || "Desconocido";
-            let explicacionFriendly = traducirParaMortales(mat.Su, mat.A5, mat.Bhn);
-
+            let tags = getLaymanTags(mat.Su || 0, mat.A5 || 0, mat.Bhn || 0);
             div.innerHTML += `
                 <div class="result-item" style="border-left-color:#059669;">
-                    <h4 style="color:#059669;">${nombre} <span style="font-size:11px; background:#d1fae5; padding:3px; border-radius:3px;">[${mat.Compatibilidad}% Match]</span></h4>
-                    <div>${explicacionFriendly}</div>
-                    <p style="font-size:11px; margin:8px 0 0 0; color:#64748b;">⚙️ <b>Specs:</b> Tratamiento: ${mat['Heat treatment']}</p>
+                    <h4 style="color:#059669;">${nombre} <span style="font-size:11px; background:#d1fae5; padding:3px; border-radius:3px; color:#065f46;">[${mat.Compatibilidad}% Match IA]</span></h4>
+                    <div style="margin:5px 0;">${tags}</div>
                 </div>`;
         });
     });
 }
 
-// QUIZ
+// QUIZ DE 15 PREGUNTAS (Con explicaciones para mortales)
 const preguntas = [
-    { q:"¿Qué aleación usas en la industria aeroespacial por su densidad de 2.7 g/cm³?", o:["Titanio","Aluminio","Cobre"], c:"Aluminio" },
-    { q:"El metal de los dioses, super resistente y biocompatible, pero imposible de maquinar:", o:["Grafeno","Titanio","Zinc"], c:"Titanio" },
-    { q:"¿Por qué el cobre domina el mundo del cableado?", o:["Es el más barato","Conduce electricidad increíblemente bien","No se oxida"], c:"Conduce electricidad increíblemente bien" },
-    { q:"Si dejo Magnesio al aire y le acerco fuego, ¿qué pasa?", o:["Nada","Se oxida lento","Arde con una luz blanca deslumbrante"], c:"Arde con una luz blanca deslumbrante" },
-    { q:"¿Qué pátina tóxica de color verde desarrolla el cobre cuando se oxida?", o:["Carbonato de Cobre","Óxido de Titanio","Alúmina"], c:"Carbonato de Cobre" }
+    { q:"Si quieres armar un avión comercial gigante pero no quieres que pese como un camión de basura, ¿qué usas?", o:["Titanio","Aluminio","Cobre"], c:"Aluminio", e:"¡Correcto! El Aluminio es la estrella aeroespacial por ser súper ligero." },
+    { q:"El Hierro es aburrido y se oxida. ¿Qué polvito mágico le echas para que se convierta en Acero súper resistente?", o:["Carbono","Cromo","Zinc"], c:"Carbono", e:"¡Sí! El carbono se mete entre los huequitos del hierro y lo hace durísimo." },
+    { q:"Todos tus cables, cargadores y celulares lo tienen adentro porque la electricidad lo ama. ¿Quién es?", o:["Oro","Plata","Cobre"], c:"Cobre", e:"¡Claro! La plata es mejor, pero el cobre es la opción buena, bonita y barata para los cables." },
+    { q:"Si dejo Magnesio al aire libre y por accidente le acerco un encendedor, ¿qué pasa?", o:["Nada, es metal","Se derrite lento","Arde con una luz blanca deslumbrante"], c:"Arde con una luz blanca deslumbrante", e:"¡Cuidado! El magnesio es súper inflamable y hace una luz que te puede dejar ciego." },
+    { q:"¿Cuál es el superpoder del Titanio que enamora a todos los doctores y dentistas del mundo?", o:["Es transparente","El cuerpo humano NO lo rechaza","Mata bacterias"], c:"El cuerpo humano NO lo rechaza", e:"¡Exacto! Biocompatibilidad al 100%. Por eso lo usan en implantes de huesos." },
+    { q:"¿Qué es el 'Límite Elástico' en español simple?", o:["Qué tanto se estira","Qué tanto lo puedes doblar sin que quede chueco para siempre","Qué tan duro es"], c:"Qué tanto lo puedes doblar sin que quede chueco para siempre", e:"¡Muy bien! Piensa en un clip: si lo doblas poquito regresa, si te pasas, se queda chueco." },
+    { q:"El Oro es 'noble', no se oxida nunca y brilla divino, pero tiene un defecto enorme si lo usas puro. ¿Cuál es?", o:["Es radiactivo","Es tan blando que se deforma con los dientes","Atrae rayos"], c:"Es tan blando que se deforma con los dientes", e:"¡Atrapado! Por eso en las joyerías lo mezclan con cobre (eso significan los quilates)." },
+    { q:"¿Cómo logras que el Acero se vuelva 'Inoxidable' y deje de ser tóxico con el agua?", o:["Pintándolo de gris","Añadiendo mínimo 10.5% de Cromo","Poniéndole Carbono"], c:"Añadiendo mínimo 10.5% de Cromo", e:"¡Magia! El cromo hace una capita invisible protectora tipo escudo." },
+    { q:"El Bronce es la mezcla OG (original) de la historia. ¿De quiénes es hijo?", o:["Cobre y Estaño","Cobre y Zinc","Hierro y Carbono"], c:"Cobre y Estaño", e:"¡Perfecto! El Latón es el de Zinc, el Bronce es el de Estaño." },
+    { q:"El metal más 'rudo' y frío. Tiene el punto para derretirse más alto de todos y se usa en los focos antiguos:", o:["Plomo","Magnesio","Tungsteno"], c:"Tungsteno", e:"¡Nadie lo derrite! El Tungsteno aguanta más de 3,400 °C." },
+    { q:"El Plomo fue canceladísimo en los 2000s y lo quitaron de la pintura y la gasolina. ¿Por qué?", o:["Era muy feo","Es neurotóxico y daña el cerebro","Se derretía con el sol"], c:"Es neurotóxico y daña el cerebro", e:"¡Trágico! Era súper útil pero envenenaba a la gente." },
+    { q:"Los plásticos de tus botellas son 'Polímeros' (cadenas largas). ¿Cómo se llaman los eslabones chiquitos que arman esa cadena?", o:["Cristales","Monómeros","Átomos"], c:"Monómeros", e:"¡Súper! Un monómero más otro monómero hacen el Polímero." },
+    { q:"Si lees que un metal tiene mucha 'Elongación' (A5), ¿qué te están diciendo?", o:["Que es súper frágil","Que se estira como chicle antes de romperse","Que pesa mucho"], c:"Que se estira como chicle antes de romperse", e:"¡Dúctil! Piensa en plastilina contra un vidrio." },
+    { q:"El Grafeno lleva años prometiendo cambiar el mundo pero nadie lo usa. ¿Por qué?", o:["Es radiactivo","Es un mito","Fabricarlo masivamente es súper caro y difícil"], c:"Fabricarlo masivamente es súper caro y difícil", e:"¡Puro PR! En el laboratorio es perfecto, en la fábrica es una pesadilla." },
+    { q:"Si quieres ver si un metal se raya fácilmente con una llave, le haces una prueba de:", o:["Dureza","Tracción","Impacto"], c:"Dureza", e:"¡Correcto! Rockwell o Brinell, la dureza es qué tanto aguantas que te rayen." }
 ];
 
 let actual = {};
@@ -555,8 +599,11 @@ function cargarPregunta(){
 
 function verificar(r){
     let div = document.getElementById("quiz-feedback");
-    if(r===actual.c){ div.innerHTML = "<span style='color:#059669;'>[SUCCESS] Respuesta Correcta.</span>"; }
-    else{ div.innerHTML = "<span style='color:#e11d48;'>[ERROR] Respuesta Incorrecta.</span>"; }
+    if(r===actual.c){ 
+        div.innerHTML = `<span style='color:#059669;'>[SUCCESS] ¡Correcto! ✨ <br><span style='font-size:12px; font-weight:normal; color:#475569;'>${actual.e}</span></span>`; 
+    } else { 
+        div.innerHTML = `<span style='color:#e11d48;'>[ERROR] Nop, incorrecto. 😭 <br><span style='font-size:12px; font-weight:normal; color:#475569;'>Era: ${actual.c}</span></span>`; 
+    }
 }
 
 window.onload = function() { cargarPosts(); cargarPregunta(); };
