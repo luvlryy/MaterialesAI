@@ -7,42 +7,35 @@ import os
 
 app = Flask(__name__)
 
-# ---------------- POSTS EN MEMORIA (CHISMES + INTRO VLOG) ---------------- #
+# ---------------- POSTS EN MEMORIA (GIFS Y CHISMES ACTUALIZADOS) ---------------- #
 blog_posts = [
     {
         "title": "💿 BIENVENIDOS A MATERIALES VLOG 💿",
         "date": "01/01/2006",
         "content": "¡Sistema iniciado! Aquí tienes tu guía de navegación:\n\n🔌 PUBLICACIONES: Sube tus propios reportes, arrastra imágenes y cuenta el chisme del laboratorio.\n📺 VIDEOS: Tu sección informativa. Pega links de YouTube para ver documentales y tutoriales sin salir de la página.\n🔍 BASE DE DATOS: Escanea nuestra red de materiales por nombre o tratamiento.\n⚙️ MATCHMAKER: Ajusta los deslizadores y la Inteligencia Artificial encontrará tu aleación perfecta.\n🎮 POP QUIZ: Demuestra que no eres un n00b en metalurgia.\n\n¡Personaliza tu perfil a la izquierda y comienza a hackear la tabla periódica! 🌐",
         "mood": "System Online 🟢",
-        "image": "https://via.placeholder.com/600x250/dbeafe/5a67d8?text=MATERIALES+VLOG+SYSTEM+ONLINE"
+        "image": "https://data.textstudio.com/output/sample/animated/4/6/5/6/material-16-6564.gif"
     },
     {
         "title": "El Grafeno es puro humo publicitario 📉",
         "date": "23/5/2006",
         "content": "Llevan 10 años prometiendo elevadores espaciales y baterías infinitas. En papel es 200 veces más fuerte que el acero, pero a nivel industrial es imposible de fabricar barato. El Silicio sigue haciendo todo el trabajo sucio en nuestras computadoras mientras el Grafeno sale en las revistas. Overrated. 🙄",
         "mood": "Escéptica 💻",
-        "image": "https://via.placeholder.com/600x250/e0e7ff/4f46e5?text=Grafeno+Overrated"
+        "image": "https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyZWo1a29scHdvM2pmb2E4YTFqdm15MjhtNXp3MW5mcXVjcjc4eHZxdiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/5OEagxq0WJvmWAZqSu/200w.gif"
     },
     {
         "title": "El Titanio: Guapo pero Inalcanzable 🙄",
         "date": "22/5/2006",
         "content": "Sí, es súper ligero, resistente y el cuerpo humano no lo rechaza en implantes. Pero intentar maquinarlo es una PESADILLA. Rompe las herramientas de corte, exige soldarse sin oxígeno y cobra carísimo. Tanta diva energy en un solo metal.",
         "mood": "Agotada 🔋",
-        "image": "https://via.placeholder.com/600x250/f3e8ff/7c3aed?text=Titanio+Diva"
+        "image": "https://images.emojiterra.com/google/noto-emoji/unicode-15/color/256px/1f612.png"
     },
     {
         "title": "El Cobre está súper tóxico hoy 🚩",
         "date": "21/5/2006",
         "content": "Dejé mi muestra al aire libre 5 minutos y ya se puso toda verde y oxidada (pátina de carbonato). No soporto tanto drama corrosivo. Lo único bueno es que conduce la electricidad de mi reproductor MP3.",
         "mood": "Drama Químico 🧪",
-        "image": "https://via.placeholder.com/600x250/ccfbf1/0d9488?text=Cobre+Oxidado+🤢"
-    },
-    {
-        "title": "OMG Acero Inoxidable & Corrosión",
-        "date": "20/5/2006",
-        "content": "El Hierro ahora sale con el Cromo (mínimo 10.5%) y formaron una capa pasiva impenetrable. Literalmente la corrosión ya no puede tocarlo. ¡Hacen match perfecto! El mayor glow up metalúrgico.",
-        "mood": "Impresionada ⚡",
-        "image": "https://via.placeholder.com/600x250/f1f5f9/475569?text=Acero+Inoxidable+Match"
+        "image": "https://media.tenor.com/1iFzaNAGgHIAAAAM/benjammins-red-flags.gif"
     }
 ]
 
