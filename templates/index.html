@@ -187,7 +187,7 @@ iframe { border: 2px inset #94a3b8; background: #000; }
     <div class="module">
         <h3>User Profile 💿</h3>
         <div class="profile-drop" id="drop-zone-profile">
-            <img id="profile-pic" src="https://via.placeholder.com/150/dbeafe/5a67d8?text=FOTO" style="width:100%; border:2px solid #94a3b8; margin-bottom:10px;">
+            <img id="profile-pic" src="https://upload.wikimedia.org/wikipedia/commons/1/12/Usuario_anonimo.PNG" style="width:100%; border:2px solid #94a3b8; margin-bottom:10px;">
             <p style="font-size:10px; margin:0; color:#64748b;">Arrastra una foto aquí 📁</p>
         </div>
 
@@ -369,7 +369,7 @@ function cargarPosts(){
                 <h3 class="post-title">${post.title}</h3>
                 <div class="post-date">📅 Date: ${post.date}</div>
                 ${post.image ? `<img src="${post.image}" class="post-img">` : ""}
-                <p style="font-size:13px; line-height:1.6;">${post.content}</p>
+                <p style="font-size:13px; line-height:1.6; white-space: pre-wrap;">${post.content}</p>
                 <div class="mood">STATUS: ${post.mood}</div>
             </div>`;
         });
